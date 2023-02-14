@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row p-3">
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">인적 정보</h5>
+                <div class="btn-group-vertical" role="group" aria-label="Basic checkbox toggle button group">
+                    {% for i in humancols %}
+                    <input type="checkbox" class="btn-check" id="human-btncheck{{ forloop.counter }}" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="human-btncheck{{ forloop.counter }}">{{i}}</label>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">약처방 정보</h5>
+                <div class="btn-group-vertical" role="group" aria-label="Basic checkbox toggle button group">
+                    {% for i in medcols %}
+                    <input type="checkbox" class="btn-check" id="med-btncheck{{ forloop.counter }}" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="med-btncheck{{ forloop.counter }}">{{i}}</label>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">검사 정보</h5>
+                <div class="btn-group-vertical" role="group" aria-label="Basic checkbox toggle button group">
+                    {% for i in checkcols %}
+                    <input type="checkbox" class="btn-check" id="check-btncheck{{ forloop.counter }}" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="check-btncheck{{ forloop.counter }}">{{i}}</label>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr class="border border-primary border-2 opacity-75">
+<div class="container-fluid text-center p-3" style="background-color: gray">
+    <div class="row">
+        <div class="col-2 align-self-center" style="background-color: red">            
+            <button type="submit" class="btn btn-outline-primary">모델 실행</button>            
+        </div>
+        <div class="col-5" style="background-color: blue">
+            <figure class="figure">
+                <img src="https://machinelearningmastery.com/wp-content/uploads/2018/08/ROC-Curve-Plot-for-a-No-Skill-Classifier-and-a-Logistic-Regression-Model.png" class="img-fluid">
+                <figcaption class="figure-caption">A caption for the above image.</figcaption>
+            </figure>
+        </div>
+        <div class="col" style="background-color: pink">
+            <figure class="figure">
+                <img src="https://blog.kakaocdn.net/dn/by2GVV/btqHVnsgfpf/vwr6iNVhNVwYoAIlYzxikK/img.png" class="img-fluid">
+                <figcaption class="figure-caption">A caption for the above image.</figcaption>
+            </figure>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

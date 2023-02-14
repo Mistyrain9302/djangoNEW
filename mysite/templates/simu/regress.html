@@ -1,0 +1,231 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid">
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="row p-3">
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">인적 정보</h5>
+                        <div class="btn-group-vertical" role="group" aria-label="Basic checkbox toggle button group">
+                            {% for i in humancols %}
+                            <input type="checkbox" class="btn-check" id="human-btncheck{{ forloop.counter }}" name="humancols" autocomplete="off" value="{{i}}" checked>
+                            <label class="btn btn-outline-primary" for="human-btncheck{{ forloop.counter }}">{{i}}</label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">약처방 정보</h5>
+                        <div class="btn-group-vertical" role="group" aria-label="Basic checkbox toggle button group">
+                            {% for i in medcols %}
+                            <input type="checkbox" class="btn-check" id="med-btncheck{{ forloop.counter }}" name="medcols" autocomplete="off" value="{{i}}" checked>
+                            <label class="btn btn-outline-primary" for="med-btncheck{{ forloop.counter }}">{{i}}</label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">검사 정보</h5>
+                        <div class="btn-group-vertical" role="group" aria-label="Basic checkbox toggle button group">
+                            {% for i in checkcols %}
+                            <input type="checkbox" class="btn-check" id="check-btncheck{{ forloop.counter }}" name="checkcols" autocomplete="off" value="{{i}}" checked>
+                            <label class="btn btn-outline-primary" for="check-btncheck{{ forloop.counter }}">{{i}}</label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">반영</button>
+        <div class="container-fluid p-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">반영된 정보</h5>
+                    {% for i in humancols_list %}
+                    {{i}}
+                    {% endfor %}
+                    {% for i in medcols_list %}
+                    {{i}}
+                    {% endfor %}
+                    {% for i in checkcols_list %}
+                    {{i}}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+<hr class="border border-primary border-2 opacity-75">
+
+<div class="container-fluid text-center p-3" style="background-color: gray">
+    <div class="row">
+        <div class="col-2 align-self-center" style="background-color: red">
+            <div class="container-fluid p-2" style="background-color: white">예측 모델
+                <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                    <label class="btn btn-outline-primary" for="btnradio1">Decision Tree</label>
+
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="btnradio2">Random Forest</label>
+
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="btnradio3">XGBoost</label>
+
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="btnradio4">LGBM</label>
+                </div>
+            </div>
+            <div class="container-fluid p-2" style="background-color: white">기능
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary" type="submit">실행 버튼</button>
+                    <button class="btn btn-primary" type="button">저장 버튼</button>
+                    <button class="btn btn-primary" type="button">...</button>
+                </div>
+            </div>
+        </div>
+        <div class="col" style="background-color: pink">
+            <figure class="figure">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/be/Normdist_regression.png" class="img-fluid">
+                <figcaption class="figure-caption">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>지표</th>
+                                <th>수치</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">R2</th>
+                                <td>999</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">mae</th>
+                                <td>998</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">mse</th>
+                                <td>997</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">rmse</th>
+                                <td>996</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </figcaption>
+            </figure>
+        </div>
+        <div class="col" style="background-color: blue">
+            <figure class="figure">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/be/Normdist_regression.png" class="img-fluid">
+                <figcaption class="figure-caption">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>지표</th>
+                                <th>수치</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">R2</th>
+                                <td>999</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">mae</th>
+                                <td>998</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">mse</th>
+                                <td>997</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">rmse</th>
+                                <td>996</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </figcaption>
+            </figure>
+        </div>
+        <div class="col" style="background-color: beige">
+            <figure class="figure">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/be/Normdist_regression.png" class="img-fluid">
+                <figcaption class="figure-caption">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>지표</th>
+                                <th>수치</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">R2</th>
+                                <td>999</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">mae</th>
+                                <td>998</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">mse</th>
+                                <td>997</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">rmse</th>
+                                <td>996</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </figcaption>
+            </figure>
+        </div>
+        <div class="col" style="background-color: yellow">
+            <figure class="figure">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/be/Normdist_regression.png" class="img-fluid">
+                <figcaption class="figure-caption">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>지표</th>
+                                <th>수치</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">R2</th>
+                                <td>999</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">mae</th>
+                                <td>998</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">mse</th>
+                                <td>997</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">rmse</th>
+                                <td>996</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </figcaption>
+            </figure>
+        </div>
+    </div>
+</div>
+{% endblock content %}
