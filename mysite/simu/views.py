@@ -22,6 +22,7 @@ def classify(request):
 
 def regress(request):
     if request.method == "POST":
+        print(request)
         humancols_selected = request.POST.getlist('humancols')
         medcols_selected = request.POST.getlist('medcols')
         checkcols_selected = request.POST.getlist('checkcols')
