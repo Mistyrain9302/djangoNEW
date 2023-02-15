@@ -1,13 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'base2.html' %}
+{% load static %}
+
 {% block content %}
-<div class="container-fluid" style="height: 100%">
-  <div class="row">
-    <div class="col-6" style="background-color:pink">
-      첫번째 div
-    </div>
-    <div class="col-6" style="background-color:beige">
-      두번째 div
-    </div>
-  </div>
+{% load plotly_dash %}
+<h1>HELLO WORLD</h1>
+<div class="{% plotly_class name='Simple_Example'%} card" style="height: 100%; width: 100%">
+  {% plotly_app name='Simple_Example' ratio=0.65 %}
 </div>
+<br>
+{{ plot1 | safe }}
 {% endblock content %}

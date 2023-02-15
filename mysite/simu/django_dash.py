@@ -12,7 +12,8 @@ import warnings; warnings.filterwarnings('ignore')
 
 import plotly.express as px
 import plotly.graph_objects as go
-from dash import Dash, html, dcc, Input, Output, State
+#from dash import Dash, html, dcc, Input, Output, State
+from django_plotly_dash import DjangoDash
 
 from sklearn.cluster import KMeans
 from sklearn.manifold import TSNE
@@ -71,7 +72,7 @@ print(f"원본 데이터 프레임 shape: {orgdf.shape}")
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
-app = Dash(__name__, external_stylesheets=external_stylesheets)
+app = DjangoDash('Simple_Example', external_stylesheets=external_stylesheets)
 app.layout = html.Div([
     ####################### 제목
     html.H1("제 2형 당뇨 환자 데이터를 활용한 합병증 예측"),
@@ -445,6 +446,6 @@ def get_feature_importance(submit, cluster_human_check, cluster_check_check, clu
     fig = px.bar(x=importances[sortIdx], y=x_train.columns[sortIdx])
     return fig
 
-if __name__ == "__main__":
-    app.run_server(debug=True)
+# if __name__ == "__main__":
+#     app.run_server(debug=True)
     

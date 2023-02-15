@@ -1,5 +1,5 @@
 from django.urls import path
-
+from simu.dash_apps.finished_apps import simple_example
 from . import views
 
 app_name = 'simu'
