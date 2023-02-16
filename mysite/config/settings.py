@@ -156,3 +156,5 @@ PLOTLY_COMPONENTS = [
     
     'dpd_components',
 ]
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'

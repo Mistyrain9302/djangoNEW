@@ -3,10 +3,9 @@
 
 {% block content %}
 {% load plotly_dash %}
-<h1>HELLO WORLD</h1>
-<div class="{% plotly_class name='Simple_Example'%} card" style="height: 100%; width: 100%">
-  {% plotly_app name='Simple_Example' ratio=0.65 %}
+
+<div class="{% plotly_class name='dist'%} card" style="height: 100%; width: 100%">
+  {% plotly_app name='dist' ratio=1 %}
 </div>
-<br>
-{{ plot1 | safe }}
+
 {% endblock content %}

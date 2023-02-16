@@ -14,33 +14,23 @@ checkcols = ['alt', 'ast','bun', 'cr', 'cr(urine)', 'crp', 'glucose(식전)', 'h
             'ica', 'ketone(urine)', 'ldl', 'r-gtp', 'tc', 'tg', 'cpep핵의학(식전)', 'cpep핵의학(식후)', 'insulin핵의학(식전)',
             'insulin핵의학(식후)']
 
-data=pd.read_excel(r'C:\Users\ASIAE-04\Desktop\newdjango\djangoNEW\mysite\simu\final_pivot_df48.xlsx')
-
 def dist_base(request):
-    def scatter():
-        x1 = data['alt']
-        y1 = data['ast']
-        
-        trace = go.Scatter(
-            x=x1,
-            y=y1,
-            mode="markers"
-        )
-        layout = dict(
-            title='Simple Graph',
-            xaxis = dict(range=[min(x1),max(x1)]),
-            yaxis = dict(range=[min(y1),max(y1)])
-        )
-        
-        fig = go.Figure(data=[trace],layout=layout)
-        plot_div = plot(fig,output_type='div',include_plotlyjs=False)
-        
-        return plot_div
-    
     context = {
-        'plot1':scatter()
+        "title" : "분포도"
     }
     return render(request,'simu/dist_base.html',context)
+
+def cluster(request):
+    context = {
+    "title" : "군집분석"
+    }
+    return render(request,'simu/cluster.html',context)
+
+def regressor(request):
+    context = {
+    "title" : "회귀분석"
+    }
+    return render(request,'simu/regressor.html',context)
 
 def classify(request):
     context={'humancols':humancols,
@@ -74,3 +64,34 @@ def regress(request):
             'checkcols':checkcols,}
 
         return render(request,'simu/regress.html',context)
+    
+    
+    
+    
+# data=pd.read_excel(r'C:\Users\Administrator\Desktop\NEWdjango\djangoNEW\mysite\simu\final_pivot_df48.xlsx')
+
+# def dist_base(request):
+#     def scatter():
+#         x1 = data['alt']
+#         y1 = data['ast']
+        
+#         trace = go.Scatter(
+#             x=x1,
+#             y=y1,
+#             mode="markers"
+#         )
+#         layout = dict(
+#             title='Simple Graph',
+#             xaxis = dict(range=[min(x1),max(x1)]),
+#             yaxis = dict(range=[min(y1),max(y1)])
+#         )
+        
+#         fig = go.Figure(data=[trace],layout=layout)
+#         plot_div = plot(fig,output_type='div',include_plotlyjs=False)
+        
+#         return plot_div
+    
+#     context = {
+#         'plot1':scatter()
+#     }
+#     return render(request,'simu/dist_base.html',context)

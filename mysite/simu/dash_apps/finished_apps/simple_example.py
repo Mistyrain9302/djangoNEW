@@ -28,10 +28,10 @@ app.layout = html.Div([
 def callback_color(dropdown_value):
     return "The selected color is %s." % dropdown_value
 
-# @app.callback(
-#     dash.dependencies.Output('output-size', 'children'),
-#     [dash.dependencies.Input('dropdown-color', 'value'),
-#      dash.dependencies.Input('dropdown-size', 'value')])
-# def callback_size(dropdown_color, dropdown_size):
-#     return "The chosen T-shirt is a %s %s one." %(dropdown_size,
-#                                                   dropdown_color)
+@app.callback(
+    dash.dependencies.Output('output-size', 'children'),
+    [dash.dependencies.Input('dropdown-color', 'value'),
+     dash.dependencies.Input('dropdown-size', 'value')])
+def callback_size(dropdown_color, dropdown_size):
+    return "The chosen T-shirt is a %s %s one." %(dropdown_size,
+                                                  dropdown_color)
