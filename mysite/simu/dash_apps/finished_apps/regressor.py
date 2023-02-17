@@ -25,7 +25,7 @@ import lightgbm
 import os 
 
 datafile_name = "final_pivot_df48.xlsx"
-PATH = os.path.dirname(os.path.abspath(__file__)) + '\\' +datafile_name
+PATH = os.path.dirname(os.path.abspath(__file__)) + '/' +datafile_name
 data = pd.read_excel(PATH)
 print(f"불러온 data shape: {data.shape}")
 
