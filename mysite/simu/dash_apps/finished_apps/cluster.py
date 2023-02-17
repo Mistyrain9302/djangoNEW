@@ -178,7 +178,7 @@ app.layout = html.Div([
             html.Br(),
             html.Div([
                 html.H5("군집 수"),
-                dcc.Input(id="input_k2", type="text", value=2)
+                dcc.Input(id="input_k2", type="text", value=4)
             ]),
             
             #실행버튼
