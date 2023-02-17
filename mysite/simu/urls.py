@@ -8,6 +8,7 @@ urlpatterns = [
     path('', views.dist_base, name='dist_base'),
     path('cluster',views.cluster, name='cluster'),
     path('regressor',views.regressor, name='regressor'),
+    path('scores/',views.scores, name='scores'),
     path('classify/',views.classify,name='classify'),
     path('regress/',views.regress,name='regress'),
 ]

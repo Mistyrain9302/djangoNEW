@@ -32,6 +32,50 @@ def regressor(request):
     }
     return render(request,'simu/regressor.html',context)
 
+def scores(request):
+    context = {
+        "title" : "환자 점수"
+    }
+    return render(request,'simu/scores.html',context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def classify(request):
     context={'humancols':humancols,
              'medcols':medcols,

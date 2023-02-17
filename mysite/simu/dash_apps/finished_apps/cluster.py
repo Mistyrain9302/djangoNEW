@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
-fontPath = r"C:\Windows\Fonts\NIAGENG.TTF"
+fontPath = "./static/Fonts/NIAGENG.TTF"
 fontName = fm.FontProperties(fname=fontPath, size=12).get_name()
 plt.rc("font", family=fontName)
 mpl.rcParams["axes.unicode_minus"] = False
@@ -122,7 +122,7 @@ app.layout = html.Div([
             html.Br(),
             html.Div([
                 html.H5("군집 수"),
-                dcc.Input(id="input_k", type="text", value=1)
+                dcc.Input(id="input_k", type="text", value=4)
             ]),
             #실행버튼
             html.Br(),
@@ -130,10 +130,13 @@ app.layout = html.Div([
         ], style={"width":"20%", "padding":"20px"}),
 
         ###군집분석 그래프
-        html.Div(
-            dcc.Graph(id="cluster_scatter_plot", figure={"layout":{"width":600, "height":600}}
-            )
-        ),
+        html.Div([
+            dcc.Loading(
+                id="loading-cluster",
+                type="circle",
+                children=dcc.Graph(id="cluster_scatter_plot", figure={"layout":{"width":600, "height":600}})
+                )
+        ]),
 
         ###Feature Importance
         html.Div([
@@ -214,7 +217,7 @@ def get_train_test_data_clf(df, dropcols):
 
 #군집분석
 @app.callback(
-    Output("cluster_scatter_plot", "figure"),    
+    Output("loading-cluster", "children"),    
     Input("submit_button1", "n_clicks"),
     Input("cluster_human_check", "value"),
     Input("cluster_check_check", "value"),
@@ -239,7 +242,7 @@ def get_cluster_plot(submit, cluster_human_check, cluster_check_check, cluster_m
     
     for i in range(int(k)):
         fig.add_trace(go.Scatter(x=arr[dff[cluster_col_name]==i, 0], y=arr[dff[cluster_col_name]==i, 1], mode="markers", name=f"cluster{i}"))        
-    return fig
+    return dcc.Graph(id="cluster_scatter_plot", figure=fig)
 
 #군집영향도
 @app.callback(

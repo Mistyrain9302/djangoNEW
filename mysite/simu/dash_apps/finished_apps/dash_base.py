@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
-fontPath = r"C:\Windows\Fonts\NIAGENG.TTF"
+fontPath = "./static/Fonts/NIAGENG.TTF"
 fontName = fm.FontProperties(fname=fontPath, size=12).get_name()
 plt.rc("font", family=fontName)
 mpl.rcParams["axes.unicode_minus"] = False
