@@ -27,20 +27,20 @@
 
 </head>
 
-<body id="page-top">
+<body id="page-top" style="background-color: #323232;">
 
     <!-- Page Wrapper -->
-    <div id="wrapper">
+    <div id="wrapper" style="background-color: #323232;">
 
         <!-- Sidebar -->
         {% include 'partials/_sidebar.html' %}
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content-wrapper" class="d-flex flex-column" style="background-color: #323232;">
 
             <!-- Main Content -->
-            <div id="content" style="background-color: #323232;">
+            <div id="content" class="flex-grow-1" style="background-color: #323232; height: 100vh;">
 
                 <!-- Topbar -->
                 {% include 'partials/_topbar.html' %}
@@ -49,7 +49,7 @@
                 <!-- Begin Page Content -->
                 {% comment %} <div class="container-fluid"> {% endcomment %}
 
-                    <div class="row" style="background-color: #323232;">
+                    <div class="row flex-grow-1" style="background-color: #323232; height: 100%;">
                         {% block content %}
                         
                         {% endblock content %}
@@ -57,10 +57,6 @@
                 </div>
             </div>
             <!-- End of Main Content -->
-
-            <!-- Footer -->
-            {% comment %} {% include 'partials/_footer.html' %} {% endcomment %}
-            <!-- End of Footer -->
 
         </div>
         <!-- End of Content Wrapper -->
