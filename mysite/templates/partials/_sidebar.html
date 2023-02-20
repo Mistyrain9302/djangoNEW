@@ -1,18 +1,18 @@
 <!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'simu:dist_base' %}">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">당뇨분석</div>
+        <div class="sidebar-brand-text mx-3" style="font-size: 20px">당뇨분석</div>
     </a>
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
-    <!-- Nav Item - Dashboard -->
+    {% comment %} <!-- Nav Item - Dashboard -->
     <li class="nav-item">
         <a class="nav-link" href="{% url 'simu:dist_base' %}">
             <i class="fa-solid fa-chart-simple"></i>
@@ -22,34 +22,34 @@
 
 
     <!-- Divider -->
-    <hr class="sidebar-divider">
+    <hr class="sidebar-divider"> {% endcomment %}
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
         <a class="nav-link" href="{% url 'simu:dist_base' %}">
             <i class="fa-solid fa-square-poll-vertical"></i>
-            <span>분포도</span>
+            <span style="font-size: 15px">분포도</span>
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link" href="{% url 'simu:cluster' %}">
             <i class="fa-solid fa-circle-nodes"></i>
-            <span>군집 분석</span>
+            <span style="font-size: 15px">군집 회귀 분석</span>
         </a>
     </li>
 
-    <li class="nav-item">
+    {% comment %} <li class="nav-item">
         <a class="nav-link" href="{% url 'simu:regressor' %}">
             <i class="fa-solid fa-chart-line"></i>
             <span>회귀 분석</span>
         </a>
-    </li>
+    </li> {% endcomment %}
 
     <li class="nav-item">
         <a class="nav-link" href="{% url 'simu:scores' %}">
             <i class="fa-solid fa-chart-pie"></i>
-            <span>환자 점수</span>
+            <span style="font-size: 15px">환자 점수</span>
         </a>
     </li>
 

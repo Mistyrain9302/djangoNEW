@@ -9,15 +9,15 @@ def dist_base(request):
 
 def cluster(request):
     context = {
-    "title" : "군집분석"
+    "title" : "군집 회귀 분석"
     }
     return render(request,'simu/cluster.html',context)
 
-def regressor(request):
-    context = {
-    "title" : "회귀분석"
-    }
-    return render(request,'simu/regressor.html',context)
+# def regressor(request):
+#     context = {
+#     "title" : "회귀분석"
+#     }
+#     return render(request,'simu/regressor.html',context)
 
 def scores(request):
     context = {

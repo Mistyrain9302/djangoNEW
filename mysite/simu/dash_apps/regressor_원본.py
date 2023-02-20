@@ -12,7 +12,8 @@ import warnings; warnings.filterwarnings('ignore')
 
 import plotly.express as px
 import plotly.graph_objects as go
-from dash import Dash, html, dcc, Input, Output, State
+from dash import Dash, html, dcc
+from dash.dependencies import Input, Output, State
 
 from sklearn.cluster import KMeans
 from sklearn.manifold import TSNE
@@ -27,7 +28,7 @@ import os
 datafile_name = "final_pivot_df48.xlsx"
 PATH = os.path.dirname(os.path.abspath(__file__)) + '/' +datafile_name
 data = pd.read_excel(PATH)
-print(f"cluster.py 갱신중")
+print(f"regressor.py 갱신중")
 
 
 ####################################################함수정의때 사용
@@ -82,250 +83,8 @@ colors = {
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
-app = DjangoDash('cluster', external_stylesheets=external_stylesheets)
+app = DjangoDash('regressor', external_stylesheets=external_stylesheets)
 app.layout = html.Div([
-    ########################### 2단
-    html.Div([
-        html.Div([
-            #제목
-            html.Div(
-                html.H4(
-                    "Clustering",
-                    style={
-                        "backgroundColor":colors['divbackground'],
-                        "color":colors['text'],
-                        "padding":"10px 20px 10px 20px",
-                        "margin":"0px 5px 0px 15px",
-                    },
-                ),
-            ),
-            html.Div([
-                html.Div([
-                    #체크리스트
-                    html.Div([
-                        html.H5("Personal"),
-                        dcc.Checklist(
-                            humancols,
-                            humancols,
-                            labelStyle={
-                                "display":"inline-block"
-                            },
-                            id = "cluster_human_check",
-                        ),
-                    ], style={
-                        "backgroundColor":colors["checkbackground"],
-                        "padding":10
-                    }),
-                    html.Div([
-                        html.H5("Examination"),
-                        dcc.Checklist(
-                            checkcols,
-                            ["ast"],
-                            labelStyle={
-                                "display":"inline-block"
-                            },
-                            id="cluster_check_check",
-                        ),
-                    ], style={
-                        "backgroundColor":colors["checkbackground"],
-                        "padding":10,
-                        "margin":"10px 0px 0px 0px",
-                    }),
-                    html.Div([
-                        html.H5("Prescription"),
-                        dcc.Checklist(
-                            medcols,
-                            medcols,
-                            labelStyle={
-                                "display":"inline-block"
-                            },
-                            id = "cluster_med_check",
-                        ),
-                    ], style={
-                        "backgroundColor":colors["checkbackground"],
-                        "padding":10,
-                        "margin":"10px 0px 0px 0px",
-                    }),
-
-                    #클러스터 갯수(input)
-                    html.Div([
-                        html.H5("Number of Clusters"),
-                        dcc.Input(
-                            id="input_k",
-                            value=4,
-                        ),
-                    ], style={
-                        "backgroundColor":colors["checkbackground"],
-                        "padding":10,
-                        "margin":"10px 0px 0px 0px",
-                    }),
-
-                    #실행버튼
-                    html.Div([                        
-                        html.Button(
-                            "실행",
-                            id="submit_button1",
-                            n_clicks=1,
-                            style={
-                                "backgroundColor":colors["checkbackground"],
-                                "color":colors["text"]
-                            }
-                        ),
-                    ], style={        
-                        "margin":"10px 0px 0px 0px",
-                    }),
-                    
-                ], style={
-                    "backgroundColor":colors["divbackground"],
-                    "color":colors["text"],
-                    "padding":"0px 20px 20px 20px",            
-                    "flex":1,            
-                }),    
-
-                #그래프
-                html.Div([
-                    dcc.Loading(
-                        id="loading-cluster",
-                        type="default",
-                        children=dcc.Graph(id="cluster_scatter_plot", figure={"layout":{"height":600}}),
-                        style={
-                        "backgroundColor":colors["divbackground"],
-                        "padding":"0px 5px 20px 0px",
-                        "flex":2,
-                        }
-                    ),
-                ]),
-            ], style={
-                "display":"flex",
-                "flex-direction":"row",
-                "margin":"0px 5px 0px 15px"
-            }),
-        ], style={
-            "flex":1,
-        }),
-
-        #FeatureImpotance
-        html.Div([
-            #제목
-            html.Div(
-                html.H4(
-                    "Clustering Feature Importance",
-                    style={
-                        "backgroundColor":colors['divbackground'],
-                        "color":colors['text'],
-                        "padding":"10px 20px 10px 20px",
-                        "margin":"0px 10px 0px 5px",
-                    },
-                ),
-            ),
-            html.Div([
-                html.Div([
-                    #체크리스트
-                    html.Div([
-                        html.H5("Personal"),
-                        dcc.Checklist(
-                            humancols,
-                            humancols,
-                            labelStyle={
-                                "display":"inline-block"
-                            },
-                            id="clf_human_check",
-                        ),
-                    ], style={
-                        "backgroundColor":colors["checkbackground"],
-                        "padding":10
-                    }),
-                    html.Div([
-                        html.H5("Examination"),
-                        dcc.Checklist(
-                            checkcols,
-                            checkcols,
-                            labelStyle={
-                                "display":"inline-block"
-                            },
-                            id="clf_check_check",
-                        ),
-                    ], style={
-                        "backgroundColor":colors["checkbackground"],
-                        "padding":10,
-                        "margin":"10px 0px 0px 0px",
-                    }),
-                    html.Div([
-                        html.H5("Prescription"),
-                        dcc.Checklist(
-                            medcols,
-                            ["dppiv"],
-                            labelStyle={
-                                "display":"inline-block"
-                            },
-                            id="clf_med_check",
-                        ),
-                    ], style={
-                        "backgroundColor":colors["checkbackground"],
-                        "padding":10,
-                        "margin":"10px 0px 0px 0px",
-                    }),    
-
-                    #클러스터 수
-                    html.Div([
-                        html.H5("Number of Clusters"),
-                        dcc.Input(
-                            id="input_k2",
-                            value=4
-                        ),
-                    ], style={
-                        "backgroundColor":colors["checkbackground"],
-                        "padding":10,
-                        "margin":"10px 0px 0px 0px",
-                    }),
-
-                    #실행버튼
-                    html.Div([                        
-                        html.Button(
-                            "실행",
-                            id="submit_button2",
-                            n_clicks=1,
-                            style={
-                                "backgroundColor":colors["checkbackground"],
-                                "color":colors["text"]
-                            }
-                        ),
-                    ], style={
-                        "margin":"10px 0px 0px 0px",
-                    }),
-
-
-                    
-                ], style={
-                    "backgroundColor":colors["divbackground"],
-                    "color":colors["text"],
-                    "padding":"0px 20px 20px 20px",            
-                    "flex":1,            
-                }),    
-
-                #그래프
-                html.Div(
-                    dcc.Graph(id="feature_importance", figure={"layout":{"height":600}}),
-                    style={
-                        "backgroundColor":colors["divbackground"],
-                        "padding":"0px 20px 20px 0px",
-                        "flex":2,
-                    }
-                ),
-            ], style={
-                "display":"flex",
-                "flex-direction":"row",
-                "margin":"0px 10px 0px 5px",
-            })        
-        ], style={
-            "margin":"0px 10px 0px 0px",
-            "flex":1,
-        }),
-    ], style={
-        "display":"flex",
-        "flex-direction":"row",
-    }),
-    
 
     #####################3단
     #제목
@@ -572,8 +331,11 @@ app.layout = html.Div([
             "margin":"0px 20px 0px 15px"
         }),
     ]),
-])
 
+#제일처음div 끝단
+], style={
+    "backgroundColor":colors['background'],
+})
 #################################################### 별도함수
 #클러스터 나누기
 def get_cluster(df, k):
@@ -620,84 +382,6 @@ def get_ml_df(orgdf, df, df_index, usecols, cluster_col_name):
 	return df2
 
 #################################################### 콜백
-
-#클러스터링
-@app.callback(
-    Output("loading-cluster","children"),
-    # Output("cluster_scatter_plot", "figure"),    
-    Input("submit_button1", "n_clicks"),
-    State("cluster_human_check", "value"),
-    State("cluster_check_check", "value"),
-    State("cluster_med_check", "value"),
-    State("input_k", "value"),
-    )    
-def get_cluster_plot(submit1, cluster_human_check, cluster_check_check, cluster_med_check, k):
-    fig = go.Figure()    
-    
-    totalcols = cluster_human_check + cluster_check_check + cluster_med_check #군집에 사용할 컬럼들        
-    dff = data[totalcols]        
-    dff = dff.dropna()
-
-    dff, cluster_col_name = get_cluster(dff, k)
-
-    tsne = TSNE(n_components=2, random_state=0)
-    arr = tsne.fit_transform(dff.drop(cluster_col_name, axis=1))
-    
-    for i in range(int(k)):
-        fig.add_trace(go.Scatter(x=arr[dff[cluster_col_name]==i, 0], y=arr[dff[cluster_col_name]==i, 1], mode="markers", name=f"cluster{i}"))
-    fig.update_layout(
-        margin_t=20, margin_r=20, margin_b=20,margin_l=20,
-        plot_bgcolor=colors["divbackground"],
-        paper_bgcolor=colors["divbackground"],
-        font_color=colors['text'],
-    )        
-    return dcc.Graph(id="cluster_scatter_plot",figure=fig)
-
-#군집영향도
-@app.callback(
-    Output("feature_importance", "figure"),
-    Input("submit_button2", "n_clicks"),
-    State("cluster_human_check", "value"),
-    State("cluster_check_check", "value"),
-    State("cluster_med_check", "value"),
-    State("clf_human_check", "value"),
-    State("clf_check_check", "value"),
-    State("clf_med_check", "value"),
-    State("input_k2", "value"))
-
-#군집 영향도 feature importance
-def get_feature_importance(submit2, cluster_human_check, cluster_check_check, cluster_med_check, clf_human_check, clf_check_check, clf_med_check, k):    
-    fig = go.Figure()
-    totalcols = cluster_human_check + cluster_check_check + cluster_med_check #군집에 사용할 컬럼들        
-    dff = data[totalcols] 
-    dff = dff.dropna()
-    dff, cluster_col_name = get_cluster(dff, k)
-    
-    clfcols = clf_human_check + clf_check_check + clf_med_check
-    
-    clfidx = dff.index
-
-    dff2 = get_ml_df(data, dff, clfidx, clfcols, cluster_col_name)
-
-    model = xgboost.XGBClassifier(random_state=42)
-    x_train, x_test, y_train, y_test = get_train_test_data_clf(dff2, cluster_col_name)#데이터분리
-    
-    model.fit(x_train, y_train)    
-    importances = model.feature_importances_
-    sortIdx = importances.argsort()[::1]
-    
-    fig = px.bar(x=importances[sortIdx], y=x_train.columns[sortIdx])
-    fig.update_layout(
-        margin_t=20, margin_r=20, margin_b=20, margin_l=20,
-        plot_bgcolor=colors["divbackground"],
-        paper_bgcolor=colors["divbackground"],
-        font_color=colors["text"],
-        xaxis_title="Importance",
-        yaxis_title="Feature"
-    )
-    return fig
-
-
 #회귀
 @app.callback(
     Output("regplot1", "figure"),    

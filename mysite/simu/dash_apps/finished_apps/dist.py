@@ -19,6 +19,7 @@ from sklearn.manifold import TSNE
 
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 import xgboost
 import lightgbm
 import os 
@@ -26,7 +27,7 @@ import os
 datafile_name = "final_pivot_df48.xlsx"
 PATH = os.path.dirname(os.path.abspath(__file__)) + '/' +datafile_name
 data = pd.read_excel(PATH)
-print(f"불러온 data shape: {data.shape}")
+print(f"dist.py 갱신중")
 
 
 ####################################################함수정의때 사용
@@ -39,13 +40,14 @@ medcols = ['a-glucosidaseinhibitor', 'dppiv', 'meglitinide', 'metformin', 'sglt2
 #검사정보 컬럼
 checkcols = ['alt', 'ast', 'bun', 'cr', 'cr(urine)', 'crp', 'glucose(식전)','hba1c', 'hdl', 'ica', 'ketone(urine)', 'ldl', 'r-gtp', 'tc', 'tg', 'cpep핵의학(식전)', 'cpep핵의학(식후)', 'insulin핵의학(식전)', 'insulin핵의학(식후)']
 usesc = humancols + medcols + checkcols
-print(usesc)
+# print(usesc)
 
 #사용모델
 DecisionTree = DecisionTreeRegressor(random_state=0)
 RandomForest = RandomForestRegressor(random_state=0)
 XGBoost = xgboost.XGBRegressor(random_state=0)
 LightGBM = lightgbm.LGBMRegressor(random_state=0)
+use_models = ["DecisionTree", "RandomForest", "XGBoost", "LightGBM"]
 models = [DecisionTree, RandomForest, XGBoost, LightGBM]
 
 
@@ -65,84 +67,151 @@ orgdf["ica"] = orgdf["ica"].replace({0:"없음", 1:"있음"})
 orgdf[['a-glucosidaseinhibitor', 'dppiv', 'meglitinide', 'metformin', 'sglt2i',
        'su', 'tzd', '인슐린외처방내역(glp1-ra)', '인슐린종류(속효성사용여부)', '인슐린종류(중간형사용여부)', '인슐린종류(지속형사용여부)', '인슐린종류(초속효성사용여부)', '인슐린종류(혼합형사용여부)', '지속형+GLP1-RA사용여부']] = orgdf[['a-glucosidaseinhibitor', 'dppiv', 'meglitinide', 'metformin', 'sglt2i',
        'su', 'tzd', '인슐린외처방내역(glp1-ra)', '인슐린종류(속효성사용여부)', '인슐린종류(중간형사용여부)', '인슐린종류(지속형사용여부)', '인슐린종류(초속효성사용여부)', '인슐린종류(혼합형사용여부)', '지속형+GLP1-RA사용여부']].replace({0:"미처방", 1: "처방"})
-print(f"원본 데이터 프레임 shape: {orgdf.shape}")
+# print(f"원본 데이터 프레임 shape: {orgdf.shape}")
 
 
 
 #################################################대시보드 구성
 
 colors = {
-    'background': '#d2d2d2',
-    'text': '#000000'
+    'background': '#000000',
+    'text': '#D2691E',
+    "divbackground": '#323232',
+    "checkbackground": '#464646'
 }
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = DjangoDash('dist', external_stylesheets=external_stylesheets)
 app.layout = html.Div([
-
     ####################### 1단
     html.Div([
-        ###변수별 분포
-        # html.H4("변수별 분포"),
+        ###변수분포
         html.Div([
-            #드롭박스1: 변수명
-            html.H4("변수별분포"),
-            html.Div(
-                dcc.Dropdown(
-                    orgcols,
-                    "나이",
-                    id="xaxis_histogram"
-                ), style={"width": "49%", "display":"inline-block"}
+            #제목
+            html.H4(
+                "Variable Distribution",
             ),
-            #드롭박스2: 구분명
-            html.Div(
-                dcc.Dropdown(
-                    ["성별", "ica", "ketone(urine)", 'a-glucosidaseinhibitor', 'dppiv','meglitinide', 'metformin', 'sglt2i', 'su', 'tzd', '인슐린외처방내역(glp1-ra)', '인슐린종류(속효성사용여부)', '인슐린종류(중간형사용여부)', '인슐린종류(지속형사용여부)', '인슐린종류(초속효성사용여부)', '인슐린종류(혼합형사용여부)', '지속형+GLP1-RA사용여부'],
+
+            #드롭다운
+            html.Div([
+                html.Div([
+                    html.H5("Variable"),
+                    dcc.Dropdown(
+                        orgcols,
+                        "나이",
+                        id="xaxis_histogram",
+                    ),
+                ], style={
+                    "backgroundColor":colors['checkbackground'],
+                    "padding":10,
+                    "margin":"0px 5px 0px 0px",
+                    "flex":1,                    
+                }),
+                html.Div([
+                    html.H5("Color"),
+                    dcc.Dropdown(
+                        ["성별", "ica", "ketone(urine)", 'a-glucosidaseinhibitor', 'dppiv','meglitinide', 'metformin', 'sglt2i', 'su', 'tzd', '인슐린외처방내역(glp1-ra)', '인슐린종류(속효성사용여부)', '인슐린종류(중간형사용여부)', '인슐린종류(지속형사용여부)', '인슐린종류(초속효성사용여부)', '인슐린종류(혼합형사용여부)', '지속형+GLP1-RA사용여부'],
                     "성별",
-                    id="histogram_color"
-                ), style={"width":"49%", "float":"right", "display":"inline-block"}
-            ),
-            #히스토그램 그래프
-            html.Div(
-                dcc.Graph(id="histogram")
-            )
-        ], style={"width":"35%", "padding": "20px"}),
+                    id="histogram_color",
+                    ),
+                ], style={
+                    "backgroundColor":colors['checkbackground'],
+                    "padding":10,
+                    "margin":"0px 0px 0px 5px",
+                    "flex":1,
+                }),
+            ], style={
+                "display":"flex",
+                "flex-direction":"row"
+            }),
 
-
-        ###상관관계        
-        html.Div([
-            html.H4("변수별 상관관계"),
-            #체크박스: 변수명
+            #분포그래프
             html.Div(
-                dcc.Checklist(
-                    ['몸무게', '키', 'alt', 'ast', 'bun', 'cr', 'cr(urine)', 'crp', 'gadab', 'glucose(식전)', 'hba1c', 'hdl', 'ldl', 'r-gtp', 'tc', 'tg', 'cpep핵의학(식전)', 'cpep핵의학(식후)', 'insulin핵의학(식전)', 'insulin핵의학(식후)', 'glucose(식후)', 'bmi'],
-                    ["몸무게", "키"],
-                    id="pair_checklist",
-                    labelStyle={"display":"inline-block"},
-                    style={"width":"70%"}
+                dcc.Graph(
+                    id="histogram",
+                    style={
+                        "margin":"10px 0px 0px 0px",
+                    }
                 )
             ),
-            #드롭다운: 구분명            
-            html.Br(),
-            html.Div(
-                dcc.Dropdown(
-                    ["성별", "ica", "ketone(urine)", 'a-glucosidaseinhibitor', 'dppiv','meglitinide', 'metformin', 'sglt2i', 'su', 'tzd', '인슐린외처방내역(glp1-ra)', '인슐린종류(속효성사용여부)', '인슐린종류(중간형사용여부)', '인슐린종류(지속형사용여부)', '인슐린종류(초속효성사용여부)', '인슐린종류(혼합형사용여부)', '지속형+GLP1-RA사용여부'],
-                    "성별",
-                    id="pair_color"
-                )
-            )
-        ], style={"width":"15%", "padding":"20px"}),
+        ], style={
+            "backgroundColor":colors['divbackground'],
+            "color":colors['text'],            
+            # "flex":1,
+            "margin":"5px 5px 5px 10px",
+            "padding": "0px 20px 20px 20px"
+        }),
 
-        #상관관계 그래프
-        html.Div(
-            dcc.Graph(id="pairplot", figure={"layout":{"width":800, "height":550}})
-        )
-    ], style={"display":"flex", "flex-direction":"row"}),
+        ###상관관계    
+        html.Div([
+            #제목
+            html.Div(
+                html.H4("Variable Correlation"),
+            ),
+
+            #변수체크박스 + 드롭다운
+            html.Div([
+                #체크박스
+                html.Div([                    
+                    html.Div([
+                        html.H5("Variable"),
+                        dcc.Checklist(
+                            checkcols,
+                            ["alt", "ast"],
+                            labelStyle={"display":"inline-block"},
+                            id="pair_checklist",
+                        ),
+                    ], style={
+                        "backgroundColor":colors["checkbackground"],
+                        "padding": 10
+                    }),
+                    html.Div([
+                        html.H5("Color"),
+                        dcc.Dropdown(
+                            ["성별", "ica", "ketone(urine)", 'a-glucosidaseinhibitor', 'dppiv','meglitinide', 'metformin', 'sglt2i', 'su', 'tzd', '인슐린외처방내역(glp1-ra)', '인슐린종류(속효성사용여부)', '인슐린종류(중간형사용여부)', '인슐린종류(지속형사용여부)', '인슐린종류(초속효성사용여부)', '인슐린종류(혼합형사용여부)', '지속형+GLP1-RA사용여부'],
+                            "성별",
+                            id="pair_color",
+                        ),
+                    ],  style={
+                        "backgroundColor":colors["checkbackground"],
+                        "padding": 10,
+                        "margin": "10px 0px 0px 0px"
+                    }),
+                ], style={
+                    "flex":0.5,
+                }),
+
+                #그래프
+                html.Div(
+                    dcc.Graph(id="pairplot", figure={"layout":{"width":1000, "height":500}}),
+                    style={
+                        "flex":2,
+                        "margin":"0px 0px 0px 10px",
+                }),
+            ], style={
+                "display": "flex",
+                "flex-direction":"row",
+            }),
+        ], style={
+            "backgroundColor":colors['divbackground'],
+            "color":colors['text'],            
+            # "flex":2,
+            "margin": "5px 0px 5px 5px",
+            "padding":"0px 20px 0px 20px",
+        })
+
+
+    ], style={
+        # "display":"flex",
+        # "flex-direction":"row",
+        "margin": "10px 20px 5px 5px",
+    }),
 ])
 
 
 #변수분포
+#개별변수 분포
 @app.callback(
     Output("histogram", "figure"),
     Input("xaxis_histogram", "value"),
@@ -150,6 +219,10 @@ app.layout = html.Div([
     )
 def get_histogram(xaxis_histogram, histogram_color):
     fig = px.histogram(orgdf, x=xaxis_histogram, color=histogram_color, marginal="box")
+    fig.update_layout(
+        margin_t=20, margin_r=20, margin_b=20, margin_l=20,
+        plot_bgcolor=colors['divbackground'],paper_bgcolor=colors['divbackground'],font_color=colors['text'],
+    )
     return fig
 
 #상관관계
@@ -158,7 +231,10 @@ def get_histogram(xaxis_histogram, histogram_color):
     Input("pair_checklist", "value"),
     Input("pair_color", "value"))
 def get_pairplot(pair_checlist, pair_color):
-    fig = px.scatter_matrix(orgdf, dimensions=pair_checlist, color=pair_color)    
+    fig = px.scatter_matrix(orgdf, dimensions=pair_checlist, color=pair_color)
+    fig.update_layout(
+        margin_t=20, margin_r=20, margin_b=20, margin_l=20,
+        plot_bgcolor=colors['divbackground'],paper_bgcolor=colors['divbackground'],     font_color=colors['text'],)
     return fig
 
 
