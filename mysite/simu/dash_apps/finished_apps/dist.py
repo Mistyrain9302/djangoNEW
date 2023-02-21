@@ -230,11 +230,11 @@ def get_histogram(xaxis_histogram, histogram_color):
     Output("pairplot", "figure"),
     Input("pair_checklist", "value"),
     Input("pair_color", "value"))
-def get_pairplot(pair_checlist, pair_color):
-    fig = px.scatter_matrix(orgdf, dimensions=pair_checlist, color=pair_color)
+def get_pairplot(pair_checklist, pair_color):
+    fig = px.scatter_matrix(orgdf, dimensions=pair_checklist, color=pair_color)
     fig.update_layout(
         margin_t=20, margin_r=20, margin_b=20, margin_l=20,
-        plot_bgcolor=colors['divbackground'],paper_bgcolor=colors['divbackground'],     font_color=colors['text'],)
+        plot_bgcolor=colors['divbackground'],paper_bgcolor=colors['divbackground'], font_color=colors['text'],)
     return fig
 
 
