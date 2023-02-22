@@ -90,7 +90,7 @@ app.layout = html.Div([
             #제목
             html.Div(
                 html.H4(
-                    "Clustering",
+                    "인적, 검사, 처방정보를 활용한 군집분석",
                     style={
                         "backgroundColor":colors['divbackground'],
                         "color":colors['text'],
@@ -103,7 +103,7 @@ app.layout = html.Div([
                 html.Div([
                     #체크리스트
                     html.Div([
-                        html.H5("Personal"),
+                        html.H5("인적정보"),
                         dcc.Checklist(
                             humancols,
                             humancols,
@@ -117,7 +117,7 @@ app.layout = html.Div([
                         "padding":10
                     }),
                     html.Div([
-                        html.H5("Examination"),
+                        html.H5("검사정보"),
                         dcc.Checklist(
                             checkcols,
                             ["ast"],
@@ -132,7 +132,7 @@ app.layout = html.Div([
                         "margin":"10px 0px 0px 0px",
                     }),
                     html.Div([
-                        html.H5("Prescription"),
+                        html.H5("처방정보"),
                         dcc.Checklist(
                             medcols,
                             medcols,
@@ -149,7 +149,7 @@ app.layout = html.Div([
 
                     #클러스터 갯수(input)
                     html.Div([
-                        html.H5("Number of Clusters"),
+                        html.H5("군집 개수"),
                         dcc.Input(
                             id="input_k",
                             value=4,
@@ -209,7 +209,7 @@ app.layout = html.Div([
             #제목
             html.Div(
                 html.H4(
-                    "Clustering Feature Importance",
+                    "군집화에 영향을 준 변수중요도 확인",
                     style={
                         "backgroundColor":colors['divbackground'],
                         "color":colors['text'],
@@ -222,7 +222,7 @@ app.layout = html.Div([
                 html.Div([
                     #체크리스트
                     html.Div([
-                        html.H5("Personal"),
+                        html.H5("인적정보"),
                         dcc.Checklist(
                             humancols,
                             humancols,
@@ -236,7 +236,7 @@ app.layout = html.Div([
                         "padding":10
                     }),
                     html.Div([
-                        html.H5("Examination"),
+                        html.H5("검사정보"),
                         dcc.Checklist(
                             checkcols,
                             checkcols,
@@ -251,7 +251,7 @@ app.layout = html.Div([
                         "margin":"10px 0px 0px 0px",
                     }),
                     html.Div([
-                        html.H5("Prescription"),
+                        html.H5("처방정보"),
                         dcc.Checklist(
                             medcols,
                             ["dppiv"],
@@ -268,7 +268,7 @@ app.layout = html.Div([
 
                     #클러스터 수
                     html.Div([
-                        html.H5("Number of Clusters"),
+                        html.H5("군집 개수"),
                         dcc.Input(
                             id="input_k2",
                             value=4
@@ -333,7 +333,7 @@ app.layout = html.Div([
         #제목
         html.Div(
             html.H4(
-                "Regression",
+                "합병증 예측을 위한 회귀모델 및 평가지표",
                 style={
                     "backgroundColor":colors['divbackground'],
                     "color":colors['text'],
@@ -346,7 +346,7 @@ app.layout = html.Div([
             html.Div([
                 #체크리스트
                 html.Div([
-                    html.H5("Personal"),
+                    html.H5("인적정보"),
                     dcc.Checklist(
                         humancols,
                         humancols,
@@ -360,7 +360,7 @@ app.layout = html.Div([
                     "padding":10
                 }),
                 html.Div([
-                    html.H5("Examination"),
+                    html.H5("검사정보"),
                     dcc.Checklist(
                         checkcols,
                         checkcols,
@@ -375,7 +375,7 @@ app.layout = html.Div([
                     "margin":"10px 0px 0px 0px",
                 }),
                 html.Div([
-                    html.H5("Prescription"),
+                    html.H5("처방정보"),
                     dcc.Checklist(
                         medcols,
                         medcols,
@@ -390,7 +390,7 @@ app.layout = html.Div([
                     "margin":"10px 0px 0px 0px",
                 }),
                 html.Div([
-                    html.H5("Target"),
+                    html.H5("예측 목표변수"),
                     dcc.RadioItems(
                         checkcols,
                         "cr",
@@ -435,10 +435,10 @@ app.layout = html.Div([
                         html.Table([
                             html.Thead(
                                 html.Tr([
-                                    html.Th("r2"),
-                                    html.Th("mae"),
-                                    html.Th("mse"),
-                                    html.Th("rmse"),
+                                    html.Th("R2"),
+                                    html.Th("MAE"),
+                                    html.Th("MSE"),
+                                    html.Th("RMSE"),
                                 ])
                             ),
                             html.Tbody(
@@ -466,10 +466,10 @@ app.layout = html.Div([
                         html.Table([
                             html.Thead(
                                 html.Tr([
-                                    html.Th("r2"),
-                                    html.Th("mae"),
-                                    html.Th("mse"),
-                                    html.Th("rmse"),
+                                    html.Th("R2"),
+                                    html.Th("MAE"),
+                                    html.Th("MSE"),
+                                    html.Th("RMSE"),
                                 ])
                             ),
                             html.Tbody(
@@ -502,10 +502,10 @@ app.layout = html.Div([
                         html.Table([
                             html.Thead(
                                 html.Tr([
-                                    html.Th("r2"),
-                                    html.Th("mae"),
-                                    html.Th("mse"),
-                                    html.Th("rmse"),
+                                    html.Th("R2"),
+                                    html.Th("MAE"),
+                                    html.Th("MSE"),
+                                    html.Th("RMSE"),
                                 ])
                             ),
                             html.Tbody(
@@ -532,10 +532,10 @@ app.layout = html.Div([
                         html.Table([
                             html.Thead(
                                 html.Tr([
-                                    html.Th("r2"),
-                                    html.Th("mae"),
-                                    html.Th("mse"),
-                                    html.Th("rmse"),
+                                    html.Th("R2"),
+                                    html.Th("MAE"),
+                                    html.Th("MSE"),
+                                    html.Th("RMSE"),
                                 ]),
                             ),
                             html.Tbody(

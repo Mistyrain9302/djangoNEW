@@ -90,13 +90,13 @@ app.layout = html.Div([
         html.Div([
             #제목
             html.H4(
-                "Variable Distribution",
+                "인적, 검사, 처방 정보를 활용한 변수 분포 확인",
             ),
 
             #드롭다운
             html.Div([
                 html.Div([
-                    html.H5("Variable"),
+                    html.H5("모든 변수"),
                     dcc.Dropdown(
                         orgcols,
                         "나이",
@@ -109,7 +109,7 @@ app.layout = html.Div([
                     "flex":1,                    
                 }),
                 html.Div([
-                    html.H5("Color"),
+                    html.H5("범주형 변수"),
                     dcc.Dropdown(
                         ["성별", "ica", "ketone(urine)", 'a-glucosidaseinhibitor', 'dppiv','meglitinide', 'metformin', 'sglt2i', 'su', 'tzd', '인슐린외처방내역(glp1-ra)', '인슐린종류(속효성사용여부)', '인슐린종류(중간형사용여부)', '인슐린종류(지속형사용여부)', '인슐린종류(초속효성사용여부)', '인슐린종류(혼합형사용여부)', '지속형+GLP1-RA사용여부'],
                     "성별",
@@ -147,7 +147,7 @@ app.layout = html.Div([
         html.Div([
             #제목
             html.Div(
-                html.H4("Variable Correlation"),
+                html.H4("인적, 검사, 처방정보를 활요한 상관관계 확인"),
             ),
 
             #변수체크박스 + 드롭다운
@@ -155,7 +155,7 @@ app.layout = html.Div([
                 #체크박스
                 html.Div([                    
                     html.Div([
-                        html.H5("Variable"),
+                        html.H5("연속형 변수"),
                         dcc.Checklist(
                             checkcols,
                             ["alt", "ast"],
@@ -167,7 +167,7 @@ app.layout = html.Div([
                         "padding": 10
                     }),
                     html.Div([
-                        html.H5("Color"),
+                        html.H5("범주형 변수"),
                         dcc.Dropdown(
                             ["성별", "ica", "ketone(urine)", 'a-glucosidaseinhibitor', 'dppiv','meglitinide', 'metformin', 'sglt2i', 'su', 'tzd', '인슐린외처방내역(glp1-ra)', '인슐린종류(속효성사용여부)', '인슐린종류(중간형사용여부)', '인슐린종류(지속형사용여부)', '인슐린종류(초속효성사용여부)', '인슐린종류(혼합형사용여부)', '지속형+GLP1-RA사용여부'],
                             "성별",
@@ -184,7 +184,7 @@ app.layout = html.Div([
 
                 #그래프
                 html.Div(
-                    dcc.Graph(id="pairplot", figure={"layout":{"width":1000, "height":500}}),
+                    dcc.Graph(id="pairplot", figure={"layout":{"height":500}}),
                     style={
                         "flex":2,
                         "margin":"0px 0px 0px 10px",
