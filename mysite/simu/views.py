@@ -3,13 +3,13 @@ from django.shortcuts import render
 
 def dist_base(request):
     context = {
-        "title" : "분포도"
+        "title" : "DIAS(DIabetes Ai Simulator)"
     }
     return render(request,'simu/dist_base.html',context)
 
 def cluster(request):
     context = {
-    "title" : "군집 회귀 분석"
+    "title" : "DIAS(DIabetes Ai Simulator)"
     }
     return render(request,'simu/cluster.html',context)
 
